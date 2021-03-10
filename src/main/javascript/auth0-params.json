@@ -1,0 +1,11 @@
+{
+  "domain": "appload-test.eu.auth0.com",
+  "clientId": "dkCwD3ANNrtDii76nURza5YXCjno2r0j",
+  "callbackUrl": "http://localhost:8080",
+  "realm": "Username-Password-Authentication",
+  "apiUrl": "http://localhost:8080/api",
+  "apiAudience": "appload-test-api"
+}
+
+
+  

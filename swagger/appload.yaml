@@ -1,0 +1,573 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Appload Trading Room Application
+  # license:
+  #   name: MIT
+servers:
+  - url: http://www.appload.com/trading
+paths:
+  /user/register:
+    post:
+      summary: Register a new user for approval
+      operationId: registerUser
+      tags:
+        - user
+      requestBody:
+        description: User object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: The user object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: The e-mail provided is already taken
+        default:
+          description: unexpected error
+
+  /user/approve/{id}:
+    post:
+      summary: Approve a user registration request
+      operationId: approveUser
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID for the user to be approved
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        "200":
+          description: The user object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: The ID provided does not exist
+        default:
+          description: unexpected error
+
+  /user/find/{id}:
+    get:
+      summary: Find a user by ID
+      operationId: findUser
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        "200":
+          description: The user object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: The ID provided does not exist
+        default:
+          description: unexpected error
+
+  /user/find/approved/{status}:
+    get:
+      summary: Find all users by given status
+      operationId: findUserByApprovedStatus
+      tags:
+        - user
+      parameters:
+        - name: status
+          in: path
+          required: true
+          description: The status
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          required: true
+          description: Which page to display
+          schema:
+            type: integer
+        - name: size
+          in: query
+          required: true
+          description: How many objects per page to display
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of users that match the given status paramter
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        default:
+          description: unexpected error
+
+  /user/find/all:
+    get:
+      summary: Find all users
+      operationId: findAllUsers
+      tags:
+        - user
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: Which page to display
+          schema:
+            type: integer
+        - name: size
+          in: query
+          required: true
+          description: How many objects per page to display
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of all users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        default:
+          description: unexpected error
+
+  /product/publish:
+    post:
+      summary: Publish product for approval
+      operationId: publishProduct
+      tags:
+        - product
+      requestBody:
+        description: Product object
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "200":
+          description: A list of all users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        default:
+          description: unexpected error
+
+  /product/approve/{id}:
+    post:
+      summary: Approve a product publish request
+      operationId: approveProduct
+      tags:
+        - product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID for the product to be approved
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        "200":
+          description: The product object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: The ID provided does not exist
+        default:
+          description: unexpected error
+
+  /product/purchase/{id}:
+    post:
+      summary: Request a product for purchase
+      operationId: purchaseProduct
+      tags:
+        - product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the requested product
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        "200":
+          description: The product object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: The ID provided does not exist
+        default:
+          description: unexpected error
+
+  /product/edit/{id}:
+    post:
+      summary: Edit a product of the given ID
+      operationId: editProduct
+      tags:
+        - product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the requested product
+          schema:
+            $ref: "#/components/schemas/Id"
+      requestBody:
+        description: Product object with the new data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "200":
+          description: The product object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: The ID provided does not exist
+        default:
+          description: unexpected error
+
+  /product/find/{id}:
+    get:
+      summary: Find a product by ID
+      operationId: findProduct
+      tags:
+        - product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the product
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        "200":
+          description: The product object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: The ID provided does not exist
+        default:
+          description: unexpected error
+
+  /product/find/sale/{status}:
+    get:
+      summary: Find all products sers by given sale status
+      operationId: findBySaleStatus
+      tags:
+        - product
+      parameters:
+        - name: status
+          in: path
+          required: true
+          description: The sale status
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          required: true
+          description: Which page to display
+          schema:
+            type: integer
+        - name: size
+          in: query
+          required: true
+          description: How many objects per page to display
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of product that match the given status paramter
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        default:
+          description: unexpected error
+
+  /product/find/all:
+    get:
+      summary: Find all products
+      operationId: findAllProducts
+      tags:
+        - product
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: Which page to display
+          schema:
+            type: integer
+        - name: size
+          in: query
+          required: true
+          description: How many objects per page to display
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list of all products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        default:
+          description: unexpected error
+
+  /notification/find/{id}:
+    get:
+      summary: Find a notification by ID
+      operationId: findNotification
+      tags:
+        - notification
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the notification
+          schema:
+            $ref: "#/components/schemas/Id"
+      responses:
+        "200":
+          description: The notification object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Notification"
+        "404":
+          description: The ID provided does not exist
+        default:
+          description: unexpected error
+
+  /notification/find/{id}/read/{status}:
+    get:
+      summary: Find all notifications for a user with the given read status
+      operationId: findNotificationsByReadStatus
+      tags:
+        - notification
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user
+          schema:
+            $ref: "#/components/schemas/Id"
+        - name: status
+          in: path
+          required: true
+          description: The read status
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          required: true
+          description: Which page to display
+          schema:
+            type: integer
+        - name: size
+          in: query
+          required: true
+          description: How many objects per page to display
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list notification objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+        "404":
+          description: The ID provided does not exist
+        default:
+          description: unexpected error
+
+  /notification/find/all/{id}:
+    get:
+      summary: Find all notifications for a user
+      operationId: findAllNotificationsByUser
+      tags:
+        - notification
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user
+          schema:
+            $ref: "#/components/schemas/Id"
+        - name: page
+          in: query
+          required: true
+          description: Which page to display
+          schema:
+            type: integer
+        - name: size
+          in: query
+          required: true
+          description: How many objects per page to display
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: A list notification objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Notification"
+        "404":
+          description: The ID provided does not exist
+        default:
+          description: unexpected error
+
+  /login:
+    post:
+      summary: log in to the trading room
+      operationId: login
+      tags:
+        - login
+      requestBody:
+        description: The email of the user
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              format: email
+      responses:
+        "200":
+          description: The user object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: The e-mail provided is not registered or approved
+        default:
+          description: unexpected error
+
+components:
+  schemas:
+    User:
+      type: object
+      # required:
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+        eMail:
+          type: string
+          format: email
+        role:
+          $ref: "#/components/schemas/UserRole"
+        approved:
+          type: boolean
+
+    Product:
+      type: object
+      #required
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        userId:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          $ref: "#/components/schemas/ProductCategory"
+        price:
+          type: number
+          format: double
+        approved:
+          type: boolean
+        sold:
+          type: boolean
+
+    Notification:
+      type: object
+      #required
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        userId:
+          $ref: "#/components/schemas/Id"
+        title:
+          type: string
+        message:
+          type: string
+        messageType:
+          $ref: "#/components/schemas/MessageType"
+        postDate:
+          type: string
+          format: date-time
+        read:
+          type: boolean
+
+    UserRole:
+      type: string
+      enum:
+        - buyer
+        - seller
+        - sys_admin
+
+    ProductCategory:
+      type: string
+      enum:
+        - electronics
+        - furniture
+        - cosmetics
+        - art
+        - clothes
+
+    MessageType:
+      type: string
+      enum:
+        - sale
+        - user
+        - approval
+
+    Id:
+      type: string
+      format: uuid
